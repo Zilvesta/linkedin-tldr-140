@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>TL;DR 140</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="head">
+    <h1>TL;DR 140</h1>
+    <label class="switch" title="Turn shortening on or off">
+      <input type="checkbox" id="enabled" checked>
+      <span class="track"><span class="knob"></span></span>
+    </label>
+  </header>
+
+  <section class="field">
+    <div class="field-head">
+      <label for="limit">Summary length</label>
+      <output id="limitOut" for="limit">140</output>
+    </div>
+    <input type="range" id="limit" min="80" max="280" step="10" value="140">
+  </section>
+
+  <section class="field">
+    <div class="field-head">
+      <label for="minLength">Shorten posts longer than</label>
+      <output id="minOut" for="minLength">320</output>
+    </div>
+    <input type="range" id="minLength" min="140" max="1200" step="20" value="320">
+  </section>
+
+  <section class="field">
+    <label for="mode">Engine</label>
+    <select id="mode">
+      <option value="auto">Auto — best available</option>
+      <option value="ai">On-device AI (needs download)</option>
+      <option value="local">Fast local — no download</option>
+    </select>
+  </section>
+
+  <section class="stale" id="stale" hidden>
+    <strong>Not shortening posts?</strong>
+    LinkedIn changed its page layout, so this version can no longer find posts in
+    your feed. It needs an update — nothing is wrong with your settings.
+    <a id="staleReport" href="#" target="_blank" rel="noopener">Report this</a>
+  </section>
+
+  <section class="field" id="langField">
+    <label for="outputLang">Summary language (AI only)</label>
+    <select id="outputLang"></select>
+    <p class="hint" id="langHint"></p>
+  </section>
+
+  <section class="status" id="status">
+    <span class="dot" id="dot"></span>
+    <span class="status-text" id="statusText">Checking…</span>
+  </section>
+
+  <button class="primary" id="warm" hidden>Download Chrome's AI model</button>
+  <div class="progress" id="progress" hidden>
+    <div class="bar" id="bar"></div>
+  </div>
+  <p class="progress-label" id="progressLabel" hidden></p>
+
+  <details class="explain" id="explain" hidden>
+    <summary>What gets downloaded?</summary>
+    <p>
+      <strong>Chrome</strong> downloads <strong>Gemini Nano</strong>, its built-in
+      AI model, directly from Google. This extension contains no model and no
+      downloadable code of its own.
+    </p>
+    <ul>
+      <li>Shared by all of Chrome, not owned by this extension — if something else already fetched it, this is instant.</li>
+      <li>One time only. Find it at <code>chrome://components</code> under "Optimization Guide On Device Model".</li>
+      <li>Chrome requires ~22&nbsp;GB free disk before it will start. The model itself is much smaller.</li>
+      <li>Once it's there, summaries run on your machine. No posts are ever sent anywhere.</li>
+    </ul>
+    <p class="explain-alt">
+      Don't want it? Set the engine to <strong>Fast local</strong> — it needs no
+      download, works on any machine, and handles every language.
+    </p>
+  </details>
+
+  <p class="stats" id="stats"></p>
+
+  <footer class="foot">
+    Summaries are generated on your device. No account, no server, no tracking.
+  </footer>
+
+  <script src="engine.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
